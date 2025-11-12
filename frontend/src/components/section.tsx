@@ -28,7 +28,7 @@ export function Section({
       )}
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="pointer-events-none absolute inset-0 opacity-80">

@@ -241,49 +241,71 @@ export default function Home() {
                 ))}
               </ResumeCard>
             </div>
-            <div className="grid gap-8 xl:grid-cols-2">
-              <div className="grid gap-8">
-                <ResumeCard title="Areas of Interest">
-                  <ul className="space-y-3 text-base leading-7">
-                    {resumeSnapshot.interests.map((interest) => (
-                      <li key={interest}>{interest}</li>
-                    ))}
-                  </ul>
-                </ResumeCard>
-                <ResumeCard title="Soft Skills">
-                  <SkillGrid items={resumeSnapshot.softSkills} />
-                </ResumeCard>
+            <div className="grid gap-6 lg:grid-cols-3">
+              <ResumeCard title="Areas of Interest">
+                <ul className="space-y-2 text-sm leading-6">
+                  {resumeSnapshot.interests.map((interest) => (
+                    <li key={interest} className="flex gap-2">
+                      <span className="mt-1.5 inline-block h-1.5 w-1.5 flex-none rounded-full bg-[color:var(--accent-primary)]" />
+                      <span>{interest}</span>
+                    </li>
+                  ))}
+                </ul>
+              </ResumeCard>
+              <ResumeCard title="Soft Skills">
+                <SkillGrid items={resumeSnapshot.softSkills} />
+              </ResumeCard>
+              <div className="grid gap-6 lg:col-span-1">
+                {technicalSkillGroups.slice(0, 2).map((group) => (
+                  <CompactTechnicalSkillCard key={group.title} group={group} />
+                ))}
               </div>
-              <TechnicalSkillsGrid groups={technicalSkillGroups} />
+            </div>
+            <div className="grid gap-6 lg:grid-cols-3">
+              {technicalSkillGroups.slice(2).map((group) => (
+                <CompactTechnicalSkillCard key={group.title} group={group} />
+              ))}
             </div>
             <div className="grid gap-8 lg:grid-cols-2">
               <ResumeCard title="Certifications & Recognitions">
-                <ul className="space-y-3 text-base leading-7">
+                <ul className="space-y-2 text-sm leading-6">
                   {resumeSnapshot.certifications.map((cert) => (
-                    <li key={cert}>{cert}</li>
+                    <li key={cert} className="flex gap-2">
+                      <span className="mt-1.5 inline-block h-1.5 w-1.5 flex-none rounded-full bg-[color:var(--accent-secondary)]" />
+                      <span>{cert}</span>
+                    </li>
                   ))}
                 </ul>
               </ResumeCard>
               <ResumeCard title="Awards & Highlights">
-                <ul className="space-y-3 text-base leading-7">
+                <ul className="space-y-2 text-sm leading-6">
                   {resumeSnapshot.awards.map((award) => (
-                    <li key={award}>{award}</li>
+                    <li key={award} className="flex gap-2">
+                      <span className="mt-1.5 inline-block h-1.5 w-1.5 flex-none rounded-full bg-[color:var(--accent-secondary)]" />
+                      <span>{award}</span>
+                    </li>
                   ))}
                 </ul>
               </ResumeCard>
             </div>
             <div className="grid gap-8 lg:grid-cols-2">
               <ResumeCard title="Volunteer & Co-curricular">
-                <ul className="space-y-3 text-base leading-7">
+                <ul className="space-y-2 text-sm leading-6">
                   {resumeSnapshot.volunteer.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item} className="flex gap-2">
+                      <span className="mt-1.5 inline-block h-1.5 w-1.5 flex-none rounded-full bg-[color:var(--accent-primary)]" />
+                      <span>{item}</span>
+                    </li>
                   ))}
                 </ul>
               </ResumeCard>
               <ResumeCard title="Hobbies & Interests">
-                <ul className="space-y-3 text-base leading-7">
+                <ul className="space-y-2 text-sm leading-6">
                   {resumeSnapshot.hobbies.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item} className="flex gap-2">
+                      <span className="mt-1.5 inline-block h-1.5 w-1.5 flex-none rounded-full bg-[color:var(--accent-primary)]" />
+                      <span>{item}</span>
+                    </li>
                   ))}
                 </ul>
               </ResumeCard>
@@ -781,6 +803,44 @@ function ResumeCard({ title, children }: { title: string; children: ReactNode })
       <h3 className="text-xl font-semibold text-[color:var(--text-primary)]">{title}</h3>
       <div className="mt-4 space-y-3 text-base leading-7 text-[color:var(--text-secondary)]">
         {children}
+      </div>
+    </div>
+  );
+}
+
+function CompactTechnicalSkillCard({ group }: { group: TechnicalSkillGroup }) {
+  const toneClasses: Record<TechnicalSkillGroup["skills"][number]["tone"], string> = {
+    indigo: "bg-indigo-500/90 text-white",
+    sky: "bg-sky-500/90 text-white",
+    emerald: "bg-emerald-500/90 text-white",
+    rose: "bg-rose-500/90 text-white",
+    amber: "bg-amber-500/90 text-white",
+    violet: "bg-violet-500/90 text-white",
+    slate: "bg-slate-500/90 text-white",
+  };
+
+  return (
+    <div className="rounded-[2rem] border border-[color:var(--border-subtle)] bg-[color:var(--surface-secondary)] p-6 shadow-[var(--shadow-m)] backdrop-blur-[var(--blur-strength)]">
+      <div className="flex items-start gap-3 mb-4">
+        <span className="inline-flex h-9 w-9 flex-none items-center justify-center rounded-[1.1rem] bg-gradient-to-br from-[color:var(--accent-primary)]/22 via-transparent to-[color:var(--accent-secondary)]/22 text-[color:var(--accent-primary)]">
+          {group.icon}
+        </span>
+        <div>
+          <h3 className="text-base font-semibold text-[color:var(--text-primary)]">{group.title}</h3>
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-2.5">
+        {group.skills.map((skill) => (
+          <span
+            key={skill.name}
+            className={`inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-medium shadow-sm ${toneClasses[skill.tone]}`}
+          >
+            <span className="flex h-5 w-5 flex-none items-center justify-center">
+              {skill.icon}
+            </span>
+            <span>{skill.name}</span>
+          </span>
+        ))}
       </div>
     </div>
   );
