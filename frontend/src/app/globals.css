@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --page-background: #f7f8f9;
+  --page-gradient: radial-gradient(circle at top left, rgba(216, 233, 255, 0.65), transparent 45%),
+    radial-gradient(circle at 80% 20%, rgba(255, 214, 252, 0.55), transparent 52%),
+    linear-gradient(160deg, #ffffff 0%, #f7f8f9 38%, #f5f3ff 100%);
+  --surface-primary: rgba(255, 255, 255, 0.86);
+  --surface-secondary: rgba(255, 255, 255, 0.72);
+  --surface-strong: rgba(255, 255, 255, 0.92);
+  --surface-glow-light: rgba(99, 102, 241, 0.14);
+  --surface-glow-dark: rgba(236, 72, 153, 0.16);
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(99, 102, 241, 0.22);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-accent: #7c3aed;
+  --accent-primary: #6366f1;
+  --accent-secondary: #ec4899;
+  --shadow-m: 0 20px 45px -24px rgba(15, 23, 42, 0.22);
+  --shadow-l: 0 28px 80px -34px rgba(56, 189, 248, 0.55);
+  --blur-strength: 18px;
+}
+
+.dark {
+  color-scheme: dark;
+  --page-background: #020617;
+  --page-gradient: radial-gradient(circle at 18% 18%, rgba(15, 118, 110, 0.38), transparent 55%),
+    radial-gradient(circle at 82% 25%, rgba(99, 102, 241, 0.35), transparent 52%),
+    linear-gradient(160deg, #020617 0%, #05091b 38%, #11143a 100%);
+  --surface-primary: rgba(15, 23, 42, 0.78);
+  --surface-secondary: rgba(15, 23, 42, 0.62);
+  --surface-strong: rgba(15, 23, 42, 0.88);
+  --surface-glow-light: rgba(94, 234, 212, 0.18);
+  --surface-glow-dark: rgba(96, 165, 250, 0.14);
+  --border-subtle: rgba(148, 163, 184, 0.24);
+  --border-strong: rgba(14, 165, 233, 0.32);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5f5;
+  --text-muted: #94a3b8;
+  --text-accent: #a855f7;
+  --accent-primary: #38bdf8;
+  --accent-secondary: #e879f9;
+  --shadow-m: 0 28px 55px -30px rgba(14, 165, 233, 0.42);
+  --shadow-l: 0 44px 120px -40px rgba(129, 140, 248, 0.6);
+  --blur-strength: 22px;
+}
+
+@theme inline {
+  --color-background: var(--page-background);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--page-background);
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  background: var(--page-gradient);
+  color: var(--text-primary);
+  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-size: 19px;
+  line-height: 1.75;
+  transition:
+    background 0.65s ease,
+    color 0.45s ease;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20vmax;
+  z-index: -2;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.22), transparent 65%);
+  filter: blur(120px);
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.dark body::before {
+  opacity: 0.35;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, transparent 65%),
+      var(--page-background);
+  }
+  .dark body {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.82) 0%, transparent 65%),
+      var(--page-background);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
