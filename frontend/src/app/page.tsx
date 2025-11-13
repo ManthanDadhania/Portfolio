@@ -812,16 +812,21 @@ function HeroSection({ resumeLink }: { resumeLink: string }) {
           </div>
 
           <div className="relative h-[18rem] w-[18rem] overflow-hidden rounded-[2.9rem] border border-[color:var(--border-subtle)] bg-[color:var(--surface-secondary)] p-1 shadow-[var(--shadow-l)] sm:h-[22rem] sm:w-[22rem] lg:h-[24rem] lg:w-[24rem]">
+            {/* Desktop rotating borders */}
             <motion.div
-              className="pointer-events-none absolute inset-0 z-10 rounded-[2.6rem] border border-[color:var(--border-strong)]/30"
+              className="pointer-events-none absolute inset-0 z-10 rounded-[2.6rem] border border-[color:var(--border-strong)]/30 hidden sm:block"
               animate={{ rotate: 360 }}
               transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
-              className="pointer-events-none absolute inset-[-8%] z-0 rounded-[3.2rem] border border-[color:var(--border-strong)]/20"
+              className="pointer-events-none absolute inset-[-8%] z-0 rounded-[3.2rem] border border-[color:var(--border-strong)]/20 hidden sm:block"
               animate={{ rotate: -360 }}
               transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
             />
+            
+            {/* Mobile static border - no animation to prevent blinking */}
+            <div className="pointer-events-none absolute inset-0 z-10 rounded-[2.6rem] border border-[color:var(--border-strong)]/40 sm:hidden" />
+            
             <div className="relative h-full w-full overflow-hidden rounded-[2.6rem] bg-[color:var(--surface-strong)]">
               <Image
                 src="/Manthan.jpg"

@@ -142,16 +142,16 @@ export function ThreeDBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-0 opacity-60"
+      className="pointer-events-none fixed inset-0 z-0 opacity-60 hidden sm:block"
       style={{ background: "transparent" }}
     />
   );
 }export function FloatingShapes() {
   const shapes = [
-    { size: 400, delay: 0, duration: 25, className: "top-10 -left-20" },
-    { size: 300, delay: 2, duration: 20, className: "top-1/3 -right-20" },
-    { size: 350, delay: 4, duration: 22, className: "bottom-20 left-1/4" },
-    { size: 250, delay: 1, duration: 18, className: "bottom-1/4 right-10" },
+    { size: 400, delay: 0, duration: 25, className: "top-10 -left-20", mobileSize: 200, mobileClassName: "top-5 -left-32" },
+    { size: 300, delay: 2, duration: 20, className: "top-1/3 -right-20", mobileSize: 150, mobileClassName: "top-1/2 -right-32" },
+    { size: 350, delay: 4, duration: 22, className: "bottom-20 left-1/4", mobileSize: 180, mobileClassName: "bottom-10 -left-24" },
+    { size: 250, delay: 1, duration: 18, className: "bottom-1/4 right-10", mobileSize: 120, mobileClassName: "bottom-1/3 -right-28" },
   ];
 
   return (
@@ -159,7 +159,7 @@ export function ThreeDBackground() {
       {shapes.map((shape, index) => (
         <motion.div
           key={index}
-          className={`absolute ${shape.className}`}
+          className={`absolute ${shape.className} hidden sm:block`}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{
             opacity: [0.3, 0.5, 0.3],
@@ -179,6 +179,35 @@ export function ThreeDBackground() {
               width: shape.size,
               height: shape.size,
               filter: "blur(80px)",
+            }}
+          />
+        </motion.div>
+      ))}
+      
+      {/* Mobile-optimized shapes - positioned away from content */}
+      {shapes.map((shape, index) => (
+        <motion.div
+          key={`mobile-${index}`}
+          className={`absolute ${shape.mobileClassName} sm:hidden`}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{
+            opacity: [0.1, 0.2, 0.1],
+            scale: [0.8, 1, 0.8],
+            rotate: [0, 180],
+          }}
+          transition={{
+            duration: shape.duration * 1.5,
+            delay: shape.delay,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        >
+          <div
+            className="rounded-full bg-linear-to-br from-violet-500/10 via-pink-500/10 to-blue-500/10 blur-2xl"
+            style={{
+              width: shape.mobileSize,
+              height: shape.mobileSize,
+              filter: "blur(40px)",
             }}
           />
         </motion.div>
