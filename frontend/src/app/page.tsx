@@ -25,6 +25,7 @@ import { Section } from "@/components/section";
 import { BackgroundCanvas } from "@/components/background-canvas";
 import { NavigationBar } from "@/components/navigation-bar";
 import { ThemeToggle } from "@/components/theme-toggle"; // Not used in this version, using FloatingThemeToggle
+import { ThreeDBackground, FloatingShapes } from "@/components/3d-background";
 import { getResumeDownloadUrl } from "@/lib/appwrite";
 import {
   collaborativeHighlights,
@@ -109,6 +110,10 @@ export default function Home() {
 
   return (
     <Fragment>
+      {/* 3D Background Elements */}
+      <ThreeDBackground />
+      <FloatingShapes />
+      
       {/* Structural Fix: Move fixed/global components out of the <main> scrolling area. */}
       <NavigationBar
         sections={navSections}
@@ -197,18 +202,18 @@ export default function Home() {
           </Section>
 
           <Section id="resume" eyebrow="Snapshot" title="Resume / CV">
-            <div className="grid gap-8 lg:grid-cols-2">
+            <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
               <ResumeCard title="Education Timeline">
-                <ul className="space-y-4">
+                <ul className="space-y-3 sm:space-y-4">
                   {resumeSnapshot.education.map((item) => (
                     <li key={item.program}>
-                      <p className="text-lg font-semibold text-[color:var(--text-primary)]">
+                      <p className="text-base font-semibold text-[color:var(--text-primary)] sm:text-lg">
                         {item.program}
                       </p>
-                      <p className="text-base text-[color:var(--text-muted)]">
+                      <p className="text-sm text-[color:var(--text-muted)] sm:text-base">
                         {item.institution} · {item.duration}
                       </p>
-                      <p className="mt-1 text-base text-[color:var(--text-accent)]">
+                      <p className="mt-1 text-sm text-[color:var(--text-accent)] sm:text-base">
                         {item.detail}
                       </p>
                     </li>
@@ -217,12 +222,12 @@ export default function Home() {
               </ResumeCard>
               <ResumeCard title="Experience">
                 {resumeSnapshot.experience.map((exp) => (
-                  <div key={exp.role} className="space-y-3">
+                  <div key={exp.role} className="space-y-2 sm:space-y-3">
                     <div>
-                      <p className="text-lg font-semibold text-[color:var(--text-primary)]">
+                      <p className="text-base font-semibold text-[color:var(--text-primary)] sm:text-lg">
                         {exp.role}
                       </p>
-                      <p className="text-base text-[color:var(--text-muted)]">
+                      <p className="text-sm text-[color:var(--text-muted)] sm:text-base">
                         {exp.organization} · {exp.duration}
                       </p>
                     </div>
@@ -230,7 +235,7 @@ export default function Home() {
                       {exp.highlights.map((highlight) => (
                         <li
                           key={highlight}
-                          className="pl-5 text-base leading-7 text-[color:var(--text-secondary)]"
+                          className="pl-4 text-sm leading-6 text-[color:var(--text-secondary)] sm:pl-5 sm:text-base sm:leading-7"
                         >
                           <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-[color:var(--accent-secondary)]" />
                           {highlight}
@@ -241,7 +246,7 @@ export default function Home() {
                 ))}
               </ResumeCard>
             </div>
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
               <ResumeCard title="Areas of Interest">
                 <ul className="space-y-2 text-sm leading-6">
                   {resumeSnapshot.interests.map((interest) => (
@@ -255,18 +260,18 @@ export default function Home() {
               <ResumeCard title="Soft Skills">
                 <SkillGrid items={resumeSnapshot.softSkills} />
               </ResumeCard>
-              <div className="grid gap-6 lg:col-span-1">
+              <div className="grid gap-4 sm:gap-6 sm:col-span-2 lg:col-span-1">
                 {technicalSkillGroups.slice(0, 2).map((group) => (
                   <CompactTechnicalSkillCard key={group.title} group={group} />
                 ))}
               </div>
             </div>
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {technicalSkillGroups.slice(2).map((group) => (
                 <CompactTechnicalSkillCard key={group.title} group={group} />
               ))}
             </div>
-            <div className="grid gap-8 lg:grid-cols-2">
+            <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
               <ResumeCard title="Certifications & Recognitions">
                 <ul className="space-y-2 text-sm leading-6">
                   {resumeSnapshot.certifications.map((cert) => (
@@ -556,7 +561,7 @@ export default function Home() {
 
 function HeroSection({ resumeLink }: { resumeLink: string }) {
   return (
-    <div className="relative isolate overflow-hidden rounded-[3rem] border border-[color:var(--border-subtle)] bg-[color:var(--surface-primary)] px-6 py-14 shadow-[var(--shadow-l)] backdrop-blur-[calc(var(--blur-strength)+6px)] sm:px-12 sm:py-16 lg:px-20 lg:py-20">
+    <div className="relative isolate overflow-hidden rounded-2xl border border-[color:var(--border-subtle)] bg-[color:var(--surface-primary)] px-4 py-10 shadow-[var(--shadow-l)] backdrop-blur-[calc(var(--blur-strength)+6px)] sm:px-8 sm:py-12 sm:rounded-3xl lg:px-20 lg:py-20 lg:rounded-[3rem]">
       <motion.div
         className="pointer-events-none absolute inset-0 opacity-70"
         initial={{ opacity: 0 }}
@@ -564,28 +569,28 @@ function HeroSection({ resumeLink }: { resumeLink: string }) {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <motion.div
-          className="absolute -top-36 left-20 h-72 w-72 rounded-full bg-gradient-to-br from-[color:var(--accent-primary)]/25 via-transparent to-[color:var(--accent-secondary)]/20 blur-[85px]"
+          className="absolute -top-36 left-10 h-48 w-48 rounded-full bg-gradient-to-br from-[color:var(--accent-primary)]/25 via-transparent to-[color:var(--accent-secondary)]/20 blur-[85px] sm:left-20 sm:h-72 sm:w-72"
           animate={{ x: [0, 32, -18, 0], y: [0, -22, 12, 0] }}
           transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute -bottom-40 right-12 h-80 w-80 rounded-full bg-gradient-to-tr from-[color:var(--accent-secondary)]/24 via-transparent to-[color:var(--accent-primary)]/22 blur-[95px]"
+          className="absolute -bottom-40 right-8 h-56 w-56 rounded-full bg-gradient-to-tr from-[color:var(--accent-secondary)]/24 via-transparent to-[color:var(--accent-primary)]/22 blur-[95px] sm:right-12 sm:h-80 sm:w-80"
           animate={{ x: [0, -28, 16, 0], y: [0, 16, -12, 0] }}
           transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.div>
-      <div className="relative z-10 grid gap-12 lg:grid-cols-[3fr_2fr] lg:items-center">
+      <div className="relative z-10 grid gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12 lg:items-center">
         <motion.div
-          className="flex-1 space-y-6"
+          className="flex-1 space-y-4 sm:space-y-6"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-strong)] bg-gradient-to-r from-[color:var(--accent-primary)]/18 via-transparent to-[color:var(--accent-secondary)]/18 px-4 py-1 text-sm font-medium text-[color:var(--text-accent)]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-strong)] bg-gradient-to-r from-[color:var(--accent-primary)]/18 via-transparent to-[color:var(--accent-secondary)]/18 px-3 py-1 text-xs font-medium text-[color:var(--text-accent)] sm:px-4 sm:text-sm">
             Academic Portfolio · {personalDetails.program}
           </span>
           <motion.h1
-            className="font-display text-balance text-4xl font-semibold leading-tight text-[color:var(--text-primary)] sm:text-5xl lg:text-6xl"
+            className="font-display text-balance text-3xl font-semibold leading-tight text-[color:var(--text-primary)] sm:text-4xl md:text-5xl lg:text-6xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
@@ -593,7 +598,7 @@ function HeroSection({ resumeLink }: { resumeLink: string }) {
             {personalDetails.name}
           </motion.h1>
           <motion.p
-            className="max-w-2xl text-xl leading-9 text-[color:var(--text-secondary)]"
+            className="max-w-2xl text-base leading-7 text-[color:var(--text-secondary)] sm:text-lg sm:leading-8 lg:text-xl lg:leading-9"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: "easeOut", delay: 0.3 }}
@@ -712,7 +717,101 @@ function HeroSection({ resumeLink }: { resumeLink: string }) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
         >
-          <div className="relative h-[22rem] w-[22rem] overflow-hidden rounded-[2.9rem] border border-[color:var(--border-subtle)] bg-[color:var(--surface-secondary)] p-1 shadow-[var(--shadow-l)] sm:h-[24rem] sm:w-[24rem]">
+          {/* Modern 3D Grid Background */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Animated Grid Lines */}
+            <div className="absolute inset-0 opacity-30">
+              <motion.div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `
+                    linear-gradient(to right, rgba(139, 92, 246, 0.3) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(139, 92, 246, 0.3) 1px, transparent 1px)
+                  `,
+                  backgroundSize: '40px 40px',
+                  transform: 'perspective(500px) rotateX(60deg)',
+                  transformOrigin: 'center center',
+                }}
+                animate={{
+                  backgroundPosition: ['0px 0px', '40px 40px'],
+                }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              />
+            </div>
+
+            {/* Glowing Orbs with Depth */}
+            <motion.div
+              className="absolute left-[10%] top-[15%] h-32 w-32 rounded-full"
+              style={{
+                background: 'radial-gradient(circle, rgba(167, 139, 250, 0.4) 0%, rgba(167, 139, 250, 0.1) 50%, transparent 100%)',
+                filter: 'blur(20px)',
+              }}
+              animate={{
+                y: [0, 20, 0],
+                scale: [1, 1.2, 1],
+                opacity: [0.4, 0.6, 0.4],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+            
+            <motion.div
+              className="absolute right-[15%] top-[25%] h-40 w-40 rounded-full"
+              style={{
+                background: 'radial-gradient(circle, rgba(236, 72, 153, 0.35) 0%, rgba(236, 72, 153, 0.1) 50%, transparent 100%)',
+                filter: 'blur(25px)',
+              }}
+              animate={{
+                y: [0, -25, 0],
+                x: [0, 15, 0],
+                scale: [1, 1.15, 1],
+                opacity: [0.35, 0.55, 0.35],
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            />
+
+            <motion.div
+              className="absolute left-[20%] bottom-[20%] h-36 w-36 rounded-full"
+              style={{
+                background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 100%)',
+                filter: 'blur(22px)',
+              }}
+              animate={{
+                y: [0, 18, 0],
+                x: [0, -12, 0],
+                scale: [1, 1.1, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            />
+
+            {/* Floating Particles */}
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute h-2 w-2 rounded-full bg-violet-400/40"
+                style={{
+                  left: `${20 + i * 10}%`,
+                  top: `${15 + i * 8}%`,
+                }}
+                animate={{
+                  y: [0, -30, 0],
+                  opacity: [0.2, 0.6, 0.2],
+                }}
+                transition={{
+                  duration: 4 + i,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.5,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="relative h-[18rem] w-[18rem] overflow-hidden rounded-[2.9rem] border border-[color:var(--border-subtle)] bg-[color:var(--surface-secondary)] p-1 shadow-[var(--shadow-l)] sm:h-[22rem] sm:w-[22rem] lg:h-[24rem] lg:w-[24rem]">
             <motion.div
               className="pointer-events-none absolute inset-0 z-10 rounded-[2.6rem] border border-[color:var(--border-strong)]/30"
               animate={{ rotate: 360 }}
